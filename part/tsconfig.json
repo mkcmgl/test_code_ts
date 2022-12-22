@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "ES6",
+        "target": "ES6",
+        "sourceMap": true,
+        //lib 制定使用库
+        "outDir": "./dist",
+        "strict": true
+    }
+
+}

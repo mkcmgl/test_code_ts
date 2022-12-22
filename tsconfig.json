@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES6",
+        "sourceMap": true,
+        //lib 制定使用库
+        "outDir": "./dist",
+        "strict": true
+    },
+    "exclude": [
+        "node_modules"
+
+    ]
+}
