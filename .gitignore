@@ -2,3 +2,7 @@
 /unpackage/dist
 /part/node_modules
 /part/dist
+/chapter/node_modules
+/chapter/dist
+/project/node_modules
+/project/dist
