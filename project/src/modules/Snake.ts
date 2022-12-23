@@ -71,7 +71,6 @@ class Snake {
         }
     }
     checkHeadBody(){
-        console.log(this.bodies.length)
         
         for(let i=1; i<this.bodies.length;i++){
             let x=(<HTMLElement>this.bodies[i]).offsetLeft;

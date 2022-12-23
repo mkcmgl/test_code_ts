@@ -8,8 +8,8 @@ class ScorePanel {
     upScore:number
     startAgain:HTMLElement;
     pauseGame:HTMLElement;
-    pauseGameType=false
-
+    pauseGameType=true
+    
 
     constructor(maxLevel: number=10 ,upScore:number=10) {
 
@@ -23,6 +23,7 @@ class ScorePanel {
 
         this.maxLevel = maxLevel
         this.upScore=upScore
+        this.addEvent()
         
     }
     addScore() {
@@ -43,6 +44,33 @@ class ScorePanel {
         this.level = 1;
         this.scoreEle.innerHTML = this.score + '';
         this.levelEle.innerHTML = this.level + '';
+    }
+    addEvent(){
+        (<HTMLElement>this.pauseGame).addEventListener('click',()=>{
+            let timer=true
+            
+           if(!timer){    
+                return
+            }
+           else{
+            timer=false
+           setTimeout(()=>{
+                if( this.pauseGameType){
+                    this.pauseGame.innerHTML = '开始';
+                    this.pauseGameType=!this.pauseGameType
+                 }else{
+                    this.pauseGame.innerHTML = '暂停';
+                    this.pauseGameType=!this.pauseGameType
+                 }
+                
+    
+                
+                timer=true
+                
+            }, 500)
+           }
+            
+        });
     }
 
 }
