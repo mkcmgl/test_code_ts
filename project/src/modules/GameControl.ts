@@ -7,9 +7,9 @@ class GameControl {
     food: Food;
     scorePanel: ScorePanel;
     direction: string = ''
-    count:string=''
+    count: string = ''
     isLive = true;
-    time=0
+    time = 0
 
     constructor() {
         this.snake = new Snake();
@@ -23,7 +23,7 @@ class GameControl {
     init() {
         document.addEventListener("keydown", (e: KeyboardEvent) => {
 
-         this.count=this.direction = e.key;
+            this.count = this.direction = e.key;
         });
         // document.addEventListener('keydown', this.keyDownHandler.bind(this));
         // 涉及到this和bind知识
@@ -37,8 +37,8 @@ class GameControl {
     run() {
         let x = this.snake.x
         let y = this.snake.y
-        if(!this.scorePanel.pauseGameType){
-           
+        if (!this.scorePanel.pauseGameType) {
+
         }
         switch (this.direction) {
             case 'ArrowUp':
@@ -65,33 +65,30 @@ class GameControl {
         this.restart()
 
 
+
         try {
             this.snake.x = x;
             this.snake.y = y;
-            
-          
+
+
         } catch (error) {
-            
+
             this.resetState()
-
-
-
-
             const res = confirm((<Error>error).message + " GAME OVER ! 是否重新开始");
             if (!res) {
                 clearTimeout(this.time);
-                this.time=0
-                this.isLive=false
+                this.time = 0
+                this.isLive = false
 
             }
-           
-        }
-        if( this.isLive){
-            this.time=<any>setTimeout(this.run.bind(this), 300 - (this.scorePanel.level - 1) * 30);
 
         }
-       
-     
+        if (this.isLive) {
+            this.time = <any>setTimeout(this.run.bind(this), 300 - (this.scorePanel.level - 1) * 30);
+
+        }
+
+
 
     }
     checkEat(x: number, y: number) {
@@ -101,7 +98,40 @@ class GameControl {
             this.scorePanel.addScore()
             this.snake.addBody()
         }
-        let bdx=this.snake.bodies
+        this.gameWin()
+        this.coincidence()
+
+    }
+    // 游戏胜利
+    gameWin() {
+        let stageWidth = (<HTMLElement>document.getElementById('stage')).offsetWidth;
+        let stageHight = (<HTMLElement>document.getElementById('stage')).offsetHeight
+        let foodWidth = this.food.element.offsetWidth
+        let foodHeight = this.food.element.offsetHeight
+        let num = (Math.round(stageWidth / foodWidth) * foodWidth) * (Math.round(stageHight / foodHeight) * foodHeight)
+        if (this.snake.bodies.length == num - 1) {
+            this.resetState()
+            const res = confirm(" YOU WIN ! 是否重新开始");
+            if (!res) {
+                clearTimeout(this.time);
+                this.time = 0
+                this.isLive = false
+            }
+        }
+    }
+    // 食物位置和蛇重合 重置食物位置
+    coincidence() {
+        let bdx = this.snake.bodies
+        for (let i = 0; i < bdx.length; i++) {
+            let bd = bdx[i]
+            let left = (<HTMLElement>bd).offsetLeft
+            let top = (<HTMLElement>bd).offsetTop
+            if (this.food.x == left && this.food.y == top) {
+                this.food.change()
+                return
+            }
+
+        }
     }
     resetState() {
         this.snake.restart()
@@ -110,32 +140,26 @@ class GameControl {
         this.direction = ''
     }
 
-    restart(){
-        (<HTMLElement>this.scorePanel.startAgain).addEventListener('click',()=>{
-      
+    restart() {
+        (<HTMLElement>this.scorePanel.startAgain).addEventListener('click', () => {
+
             this.resetState()
-            if( !this.isLive ){
-                this.isLive=true
+            if (!this.isLive) {
+                this.isLive = true
                 this.init()
                 // this.time=<any>setTimeout(this.run.bind(this), 300 - (this.scorePanel.level - 1) * 30);
             }
-          
-   
         });
-        (<HTMLElement>this.scorePanel.pauseGame).addEventListener('click',()=>{
+        (<HTMLElement>this.scorePanel.pauseGame).addEventListener('click', () => {
+            if (this.scorePanel.pauseGameType) {
+                this.isLive = false
 
-            
-            if(this.scorePanel.pauseGameType){
-             this.isLive=false
-            
-            }else{
+            } else {
                 clearTimeout(this.time);
-                this.isLive=true
+                this.isLive = true
                 this.run()
             }
-        },{once:true});
-
-      
+        }, { once: true });
 
     }
 
