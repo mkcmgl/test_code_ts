@@ -22,8 +22,16 @@ class GameControl {
     }
     init() {
         document.addEventListener("keydown", (e: KeyboardEvent) => {
-
-            this.count = this.direction = e.key;
+            let timer=true
+            if(!timer){
+                return
+            }else{
+                timer=false
+                setTimeout(()=>{
+                    this.count = this.direction = e.key;
+                    timer=true
+                },100)
+            }
         });
         // document.addEventListener('keydown', this.keyDownHandler.bind(this));
         // 涉及到this和bind知识

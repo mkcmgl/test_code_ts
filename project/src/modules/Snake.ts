@@ -24,18 +24,27 @@ class Snake {
             throw new Error('撞墙');
             
         }
-        if(this.bodies[1]&& (<HTMLElement>this.bodies[1]).offsetLeft==value){
+        if(this.bodies[1]&& (<HTMLElement>this.bodies[1]).offsetLeft===value){
+            console.log('反向v',value,this.x,this.y)
             if(value>this.x){
-                value=  this.x-10;
+                value= this.x-10;
+                console.log('va',value,this.x)
+                this.head.style.left = `${value}px`;
             }
             if(value<this.x){
                 value= this.x +10;
+                this.head.style.left = `${value}px`;
             }
-        }
-       
+            this.x=value
+
+
+        }else{
+            
         this.moveBody()
         this.head.style.left = `${value}px`;
-        this.checkHeadBody()
+        this.checkHeadBody(value)
+        }
+       
     }
     set y(value){
         if(this.y==value){
@@ -44,18 +53,28 @@ class Snake {
         if(value<0||value>290){
             throw new Error('撞墙');
         }
-        if(this.bodies[1]&& (<HTMLElement>this.bodies[1]).offsetTop==value){
+        if(this.bodies[1]&& (<HTMLElement>this.bodies[1]).offsetTop===value){
+            console.log('反向vy',value,this.x,this.y)
             if(value>this.y){
                 value=  this.y-10;
+                console.log('vay',value,this.y)
+               this.head.style.top = `${value}px`;
+               this.y=value
+
             }
             if(value<this.y){
                 value= this.y +10;
+                console.log('vay',value,this.y)
+                this.head.style.top = `${value}px`;
+               this.y=value
+
             }
+            
         }
         
         this.moveBody()
         this.head.style.top = `${value}px`;
-        this.checkHeadBody()
+        this.checkHeadBody(value)
     }
     addBody(){
     this.element.insertAdjacentHTML('beforeend','<div></div>');
@@ -70,7 +89,7 @@ class Snake {
             
         }
     }
-    checkHeadBody(){
+    checkHeadBody(value:number){
         
         for(let i=1; i<this.bodies.length;i++){
             let x=(<HTMLElement>this.bodies[i]).offsetLeft;
