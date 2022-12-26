@@ -25,25 +25,22 @@ class Snake {
             
         }
         if(this.bodies[1]&& (<HTMLElement>this.bodies[1]).offsetLeft===value){
-            console.log('反向v',value,this.x,this.y)
+            console.log('x')
             if(value>this.x){
                 value= this.x-10;
-                console.log('va',value,this.x)
-                this.head.style.left = `${value}px`;
+                console.log(' value= this.x-10;')
             }
-            if(value<this.x){
+            else{
                 value= this.x +10;
-                this.head.style.left = `${value}px`;
+                console.log('      value= this.x +10;;')
+
             }
-            this.x=value
-
-
-        }else{
+        }
             
         this.moveBody()
         this.head.style.left = `${value}px`;
-        this.checkHeadBody(value)
-        }
+        this.checkHeadBody()
+       
        
     }
     set y(value){
@@ -54,27 +51,22 @@ class Snake {
             throw new Error('撞墙');
         }
         if(this.bodies[1]&& (<HTMLElement>this.bodies[1]).offsetTop===value){
-            console.log('反向vy',value,this.x,this.y)
+            console.log('y')
+
             if(value>this.y){
                 value=  this.y-10;
-                console.log('vay',value,this.y)
-               this.head.style.top = `${value}px`;
-               this.y=value
+ 
 
             }
-            if(value<this.y){
+            else{
                 value= this.y +10;
-                console.log('vay',value,this.y)
-                this.head.style.top = `${value}px`;
-               this.y=value
-
             }
             
         }
         
         this.moveBody()
         this.head.style.top = `${value}px`;
-        this.checkHeadBody(value)
+        this.checkHeadBody()
     }
     addBody(){
     this.element.insertAdjacentHTML('beforeend','<div></div>');
@@ -89,15 +81,16 @@ class Snake {
             
         }
     }
-    checkHeadBody(value:number){
+    checkHeadBody(){
+        console.log('自己')
         
         for(let i=1; i<this.bodies.length;i++){
-            let x=(<HTMLElement>this.bodies[i]).offsetLeft;
-            let y=(<HTMLElement>this.bodies[i]).offsetTop;
-            if(x===this.x&& y===this.y){
-                throw new Error('吃了自己');
-
+            let bd = this.bodies[i] as HTMLElement;
+            if (this.x === bd.offsetLeft && this.y === bd.offsetTop) {
+                throw new Error("撞到自己了~~");
+                
             }
+
         }
     }
     restart(){
